@@ -1,9 +1,10 @@
 import datetime
+import os
 
 old_time = datetime.datetime.now()
 new_time = old_time + datetime.timedelta(hours=6, minutes=0)
-message = "TIME TO TAKE YOUR MEDICINE NOW " + old_time.strftime("%I:%M %p" ) + " \n" + "Next time you need to take your medicine: " + new_time.strftime("%I:%M %p")
-print(message)
+damessage = "TIME TO TAKE YOUR MEDICINE NOW " + old_time.strftime("%I:%M %p" ) + " \n" + "Next time you need to take your medicine: " + new_time.strftime("%I:%M %p")
+print(damessage)
 
 
 import smtplib
@@ -20,7 +21,7 @@ recipient_phone = "7142669806"  # Recipient's phone number
 carrier_gateway = "7142669806@tmomail.net"  # T-Mobile's email-to-SMS gateway
 
 # Message to send
-message = "This is a test text message."
+message = damessage
 
 # Create a MIMEText object for the email content
 msg = MIMEText(message)
