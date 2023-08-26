@@ -14,9 +14,8 @@ from email.mime.text import MIMEText
 USER_EMAIL = os.environ.get("USER_EMAIL")
 USER_PASSWORD = os.environ.get("USER_PASSWORD")
 sender_email = USER_EMAIL
-receiver_email = USER_EMAIL
-sender_email = USER_EMAIL
 sender_password = USER_PASSWORD
+
 recipient_phone = "7142669806"  # Recipient's phone number
 carrier_gateway = "7142669806@tmomail.net"  # T-Mobile's email-to-SMS gateway
 
