@@ -28,16 +28,17 @@ print(message)
 
 
 # Email configuration
-USER_EMAIL = "cronbaby2023@gmail.com"
-USER_PASSWORD = "yzydscwcfjtwkveo"
+USER_EMAIL = os.environ.get("USER_EMAIL")
+USER_PASSWORD = os.environ.get("USER_PASSWORD")
+PHONE_NUMBER = os.environ.get("PHONE_NUMBER")
 
 sender_email = USER_EMAIL
 sender_password  = USER_PASSWORD
 
 subject = "Medicine Reminder"
 
-recipient_phone = "6512104311"  # Recipient's phone number
-carrier_gateway = "6512104311@tmomail.net"  # T-Mobile's email-to-SMS gateway
+
+carrier_gateway = PHONE_NUMBER #email-to-SMS gateway
 
 # Create a MIMEText object for the email content
 msg = MIMEText(message)

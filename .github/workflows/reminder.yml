@@ -17,5 +17,6 @@ jobs:
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
+          PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
         run: |
             python reminder.py
