@@ -57,11 +57,6 @@ def send_reminder_message():
 
     print("Text messages sent successfully!")
 
-# Call the method to send the reminder message
-send_reminder_message()
-
-
-
 # Calculates the next time to take the medication which is 6 hours
 formatted_current_time, formatted_new_time = calculate_and_format_medicine_times(6)
 # Formatted message to send 
