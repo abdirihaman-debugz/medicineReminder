@@ -20,7 +20,7 @@ def calculate_and_format_medicine_times(hours_to_add):
     return formatted_current_time, formatted_new_time
 
 #Sends the email reminder
-def send_reminder_message():
+def send_reminder_message(messageToSend):
     # Email configuration
     USER_EMAIL = os.environ.get("USER_EMAIL")
     USER_PASSWORD = os.environ.get("USER_PASSWORD")
@@ -41,13 +41,14 @@ def send_reminder_message():
     server.login(USER_EMAIL, USER_PASSWORD)
 
     # Message to send
-    message = "This is a test text message."
+    message = messageToSend
 
     # Send the email to each recipient
     for recipient_email in phone_numbers:
         msg = MIMEText(message)
         msg["From"] = USER_EMAIL
         msg["To"] = recipient_email
+        msg["Subject"] = subject
 
         # Send the email
         server.sendmail(USER_EMAIL, recipient_email, msg.as_string())
@@ -62,7 +63,7 @@ formatted_current_time, formatted_new_time = calculate_and_format_medicine_times
 # Formatted message to send 
 message = "\nTIME TO TAKE YOUR MEDICINE NOW " + formatted_current_time + "\n" + "Next time you need to take your medicine: " + formatted_new_time
 # Sends the reminder
-send_reminder_message()
+send_reminder_message(message)
 
 
 
