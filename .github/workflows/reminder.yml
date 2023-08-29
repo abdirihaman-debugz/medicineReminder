@@ -18,5 +18,6 @@ jobs:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
           PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
+          PHONE_NUMBER2: ${{ secrets.PHONE_NUMBER2 }}
         run: |
             python reminder.py

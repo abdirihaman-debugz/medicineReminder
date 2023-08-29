@@ -3,69 +3,74 @@ import smtplib
 from email.mime.text import MIMEText
 import os
 
-# Get the current UTC time
-utc_time = datetime.datetime.now(datetime.timezone.utc)
+# Calculates the next time you have to take your medication
+def calculate_and_format_medicine_times(hours_to_add):
+    #we do this due to when the pipeline runs it use UTC and have to get the time in our current timezone
+    def to_local_time():
+        utc_time = datetime.datetime.now(datetime.timezone.utc)
+        pacific_offset = datetime.timedelta(hours=-7)
+        return utc_time + pacific_offset
 
-# Define the Pacific Time Zone offset (UTC-8 or UTC-7, depending on daylight saving time)
-# pacific_offset = datetime.timedelta(hours=-8)  # Standard Time (UTC-8)
-# If you want to consider daylight saving time, you can use:
-pacific_offset = datetime.timedelta(hours=-7)  # Daylight Saving Time (UTC-7)
+    current_time = to_local_time()
+    new_time = current_time + datetime.timedelta(hours=hours_to_add)
 
-# Calculate the current Pacific Time
-pacific_time = utc_time + pacific_offset
+    formatted_current_time = current_time.strftime("%I:%M %p")
+    formatted_new_time = new_time.strftime("%I:%M %p")
 
-# Calculate the time 6 hours from the current Pacific Time
-new_pacific_time = pacific_time + datetime.timedelta(hours=6)
+    return formatted_current_time, formatted_new_time
 
-# Format the current Pacific Time and the new time
-formatted_current_time = pacific_time.strftime("%I:%M %p")
-formatted_new_time = new_pacific_time.strftime("%I:%M %p")
+#Sends the email reminder
+def send_reminder_message():
+    # Email configuration
+    USER_EMAIL = os.environ.get("USER_EMAIL")
+    USER_PASSWORD = os.environ.get("USER_PASSWORD")
+    PHONE_NUMBER = os.environ.get("PHONE_NUMBER") 
+    PHONE_NUMBER2 = os.environ.get("PHONE_NUMBER2")
 
-message = "\nTIME TO TAKE YOUR MEDICINE NOW " + formatted_current_time + "\n" + "Next time you need to take your medicine: " + formatted_new_time
+    subject = "Medicine Reminder"
 
-print(message)
+    phone_numbers = [PHONE_NUMBER, PHONE_NUMBER2]  # email-to-SMS gateway
 
-
-
-# Email configuration
-USER_EMAIL = os.environ.get("USER_EMAIL")
-USER_PASSWORD = os.environ.get("USER_PASSWORD")
-PHONE_NUMBER = os.environ.get("PHONE_NUMBER")
-
-sender_email = USER_EMAIL
-sender_password  = USER_PASSWORD
-
-subject = "Medicine Reminder"
-
-
-carrier_gateway = PHONE_NUMBER #email-to-SMS gateway
-
-# Create a MIMEText object for the email content
-msg = MIMEText(message)
-msg["From"] = sender_email
-msg["To"] = carrier_gateway
-msg["Subject"] = subject
-
-# Connect to the SMTP server
-smtp_server = "smtp.gmail.com"  # Example for Gmail
-smtp_port = 587  # Gmail uses port 587 for TLS
-
-try:
-    # Establish a connection to the SMTP server
+    # Create an SMTP connection
+    smtp_server = "smtp.gmail.com"  # Example for Gmail
+    smtp_port = 587  # Gmail uses port 587 for TLS
     server = smtplib.SMTP(smtp_server, smtp_port)
     server.starttls()  # Upgrade the connection to secure (TLS)
 
     # Log in to your email account
-    server.login(sender_email, sender_password)
+    server.login(USER_EMAIL, USER_PASSWORD)
 
-    # Send the email
-    server.sendmail(sender_email, carrier_gateway, msg.as_string())
+    # Message to send
+    message = "This is a test text message."
+
+    # Send the email to each recipient
+    for recipient_email in phone_numbers:
+        msg = MIMEText(message)
+        msg["From"] = USER_EMAIL
+        msg["To"] = recipient_email
+
+        # Send the email
+        server.sendmail(USER_EMAIL, recipient_email, msg.as_string())
+
+    # Close the SMTP server connection
     server.quit()
 
-    print("Text message sent successfully")
+    print("Text messages sent successfully!")
 
-except Exception as e:
-    print(f"An error occurred: {str(e)}")
+# Call the method to send the reminder message
+send_reminder_message()
+
+
+
+# Calculates the next time to take the medication which is 6 hours
+formatted_current_time, formatted_new_time = calculate_and_format_medicine_times(6)
+# Formatted message to send 
+message = "\nTIME TO TAKE YOUR MEDICINE NOW " + formatted_current_time + "\n" + "Next time you need to take your medicine: " + formatted_new_time
+# Sends the reminder
+send_reminder_message()
+
+
+
 
 
 
