@@ -13,11 +13,11 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - name: Send Text
+      - name: Send Text 
         env:
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           USER_PASSWORD: ${{ secrets.USER_PASSWORD }}
-          PHONE_NUMBERS: ${{ secrets.PHONE_NUMBERS }}
+          PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
           PHONE_NUMBER2: ${{ secrets.PHONE_NUMBER2 }}
         run: |
             python reminder.py

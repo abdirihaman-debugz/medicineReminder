@@ -7,9 +7,9 @@ import os
 
 USER_EMAIL = os.environ.get("USER_EMAIL")
 USER_PASSWORD = os.environ.get("USER_PASSWORD")
-PHONE_NUMBERS = os.environ.get("PHONE_NUMBERS")
-# PHONE_NUMBER2 = os.environ.get("PHONE_NUMBER2")
-# phone_numbers = [PHONE_NUMBER, PHONE_NUMBER2]
+PHONE_NUMBER1 = os.environ.get("PHONE_NUMBER")
+PHONE_NUMBER2 = os.environ.get("PHONE_NUMBER2")
+phone_numbers = [PHONE_NUMBER1, PHONE_NUMBER2]
 subject = "Medicine Reminder"
 
 # Calculates the next time you have to take your medication
@@ -61,7 +61,7 @@ formatted_current_time, formatted_new_time = calculate_and_format_medicine_times
 # Formatted message to send 
 message = "\nTIME TO TAKE YOUR MEDICINE NOW:" + formatted_current_time + "\n" + "Next time you need to take your medicine: " + formatted_new_time
 # Sends the reminder
-send_reminder_message(USER_EMAIL, USER_PASSWORD, PHONE_NUMBERS, subject,  message)
+send_reminder_message(USER_EMAIL, USER_PASSWORD, phone_numbers, subject,  message)
 
 
 
