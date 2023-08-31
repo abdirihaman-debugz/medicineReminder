@@ -42,6 +42,7 @@ def send_reminder_message(email, password, phoneArr, subjectToSend, messageToSen
 
     # Send the text to each recipient (EMAIL to SMS)
     for recipient_email in phoneArr:
+        print(recipient_email)
         msg = MIMEText(messageToSend)
         msg["From"] = USER_EMAIL
         msg["To"] = recipient_email
